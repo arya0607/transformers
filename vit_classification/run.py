@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 from trainer import Trainer
 from vit import ViT
 from matplotlib import pyplot as plt
+import torch
 
 # load cifar10 training data from torchvision
 train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transforms.ToTensor())
@@ -14,7 +15,7 @@ train_dataloader =  DataLoader(train_dataset, batch_size=64, shuffle=True)
 test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transforms.ToTensor())
 test_dataloader =  DataLoader(test_dataset, batch_size=64, shuffle=True)
 
-device = 'cuda'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 transformer = ViT(
                 patch_dim=8,
                 d_model=256,
@@ -25,7 +26,7 @@ transformer = ViT(
                 num_classes=10,
                 device=device
             )
-trainer = Trainer(transformer, train_dataloader, test_dataloader, learning_rate=1e-4, batch_size=64, print_every=1, num_epochs=100)
+trainer = Trainer(transformer, train_dataloader, test_dataloader, learning_rate=1e-4, batch_size=64, print_every=1, num_epochs=100, device=device)
 trainer.train()
 
 # Plot the training loss, train accuracy and test accuracy

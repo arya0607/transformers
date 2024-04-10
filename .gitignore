@@ -1,1 +1,4 @@
 coco_captioning
+vit_classification/data
+*__pycache__
+latex/
