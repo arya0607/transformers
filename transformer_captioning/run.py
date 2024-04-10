@@ -16,7 +16,7 @@ val_dataset = CocoDataset(load_coco_data(max_val = 1024), 'val')
 val_dataloader =  DataLoader(val_dataset, batch_size=64)
 
 
-device = 'cuda'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 transformer = TransformerDecoder(
           word_to_idx=train_dataset.data['word_to_idx'],
           idx_to_word = train_dataset.data['idx_to_word'],

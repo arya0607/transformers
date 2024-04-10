@@ -26,7 +26,7 @@ class Trainer(object):
         #The loss should be averaged over batch and sequence dimensions. 
 
         mask = (labels != 0).float()
-        loss = torch.nn.functional.cross_entropy(predictions, labels, reduction='none') * mask
+        loss = torch.nn.functional.cross_entropy(predictions.permute(0,2,1), labels, reduction='none') * mask
         loss = loss.sum() / mask.sum()
         return loss
     
